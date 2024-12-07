@@ -1,0 +1,70 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "_isAnimal",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "makeSound",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/oops.sol": "bom"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/oops.sol": {
+			"keccak256": "0xb534d9114b0e343e8aa881b3da54812c10e0098d2a0e47c86f34716ab6711d9b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c5f653b66a63ba58a679f6f299720fb0fb123aca7de9eaba6616260a308b74a7",
+				"dweb:/ipfs/QmVzSz1kukVQcTbQspNCjiZkK8BryzdPchEYfKRAHA8Sqy"
+			]
+		}
+	},
+	"version": 1
+}
