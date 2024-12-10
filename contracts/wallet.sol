@@ -7,7 +7,7 @@ contract Wallet {
     string public status;
 
     constructor() {
-        owner = msg.sender;
+        owner = payable(msg.sender);
     }
 
     struct Transaction {
