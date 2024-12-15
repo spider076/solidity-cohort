@@ -1,0 +1,17 @@
+const ethers = require("ethers");
+const abi = require("./abi");
+require("dotenv").config();
+
+const readContract = async () => {
+  const provider = new ethers.JsonRpcProvider(
+    "https://ethereum-sepolia-rpc.publicnode.com"
+  );
+  const contractAddr = "0x50211017a8853231A67eF1A183454Be246C77744";
+  const contractInstance = new ethers.Contract(contractAddr, abi, provider);
+
+  const value = await contractInstance.getCounts();
+
+  console.log("counts : ", value.toString());
+};
+
+readContract();
