@@ -62,7 +62,7 @@ contract basics {
     // struct Student {
     //     string name;
     //     uint age;
-    //     uint rollNo; 
+    //     uint rollNo;
     // }
 
     // Student[] public structExample;
@@ -100,27 +100,61 @@ contract basics {
 
     //     return reversed;
     // }
-
-    struct USER{
+    struct USER {
         uint id;
         string name;
     }
 
-    mapping(uint => USER) public users;
-    uint public count = 1;
+    uint256 private userId = 1;
 
-    function insert(uint _id, string memory _name) public {
-        users[_id] = USER(count, _name);
-        count++;
-    }
+    USER[] public users;
 
-    function read(uint id) public view returns(USER memory) {
-        return users[id];
-    }
+    function insert(string memory name) public {
+        users.push(USER(userId, name));
 
-    function find(uint id) public view returns(string memory) {
-        require(id <= count, "User does not exist!");
-
-        return "User exists!";
+        userId++;
     } 
+
+    function read(uint id) public view returns(bool) {
+        for(uint i=0;i<users.length;i++) {
+            if(users[i].id == id) {
+                return true;
+            }
+        }
+
+        revert("User does not exist!");
+    }
+
+    function find(uint id) public view returns(string memory, uint) {
+        for(uint i=0;i<users.length;i++) {
+            if(users[i].id == id) {
+                return (users[i].name, users[i].id);
+            }
+        }
+
+        revert("there is no user with the specified id");
+    }
+
+    // struct USER{
+    //     uint id;
+    //     string name;
+    // }
+
+    // mapping(uint => USER) public users;
+    // uint public count = 1;
+
+    // function insert(uint _id, string memory _name) public {
+    //     users[_id] = USER(count, _name);
+    //     count++;
+    // }
+
+    // function read(uint id) public view returns(USER memory) {
+    //     return users[id];
+    // }
+
+    // function find(uint id) public view returns(string memory) {
+    //     require(id <= count, "User does not exist!");
+
+    //     return "User exists!";
+    // }
 }

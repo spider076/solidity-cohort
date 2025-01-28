@@ -111,17 +111,17 @@ contract human is Animal {
 // interface example
 
 interface IGreet {
-    function greet() external pure returns(string memory);
+    function greet() external pure returns (string memory);
 }
 
 contract Greeter is IGreet {
-    function greet() public pure returns(string memory) {
+    function greet() public pure returns (string memory) {
         return "HOLA !";
     }
 }
 
 contract sayHola {
-    function getHola(address _greeterAdr) public pure returns(string memory) {
+    function getHola(address _greeterAdr) public pure returns (string memory) {
         return IGreet(_greeterAdr).greet();
     }
 }
