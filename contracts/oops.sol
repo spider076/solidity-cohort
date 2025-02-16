@@ -109,7 +109,6 @@ contract human is Animal {
 }
 
 // interface example
-
 interface IGreet {
     function greet() external pure returns (string memory);
 }

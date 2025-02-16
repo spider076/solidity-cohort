@@ -14,6 +14,10 @@ contract GLDTOKEN is ERC20 {
     mapping(address => bool) internal freezedAccounts;
     bool public transfersPause;
 
+    // function decimals() public pure override returns (uint8) {
+    //     return 0;
+    // }
+
     modifier _isAccFreezed(address account) {
         require(!freezedAccounts[account], "The Account is freezed");
         _;
