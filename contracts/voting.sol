@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
 
+import "hardhat/console.sol";
+
 pragma solidity ^0.8.26;
 
 contract Vote {
@@ -122,6 +124,19 @@ contract Vote {
         return candidates;
     }
 
+    function getVoter(address _voterAddress)
+        public
+        view
+        returns (Voter memory)
+    {
+        for (uint256 i = 1; i < nextVoterId; i++) {
+            if (voterDetails[i].voterAddress == _voterAddress) {
+                return voterDetails[i];
+            }
+        }
+        revert("Voter not found");
+    }
+
     function isVoterRegistered(address _person) internal view returns (bool) {
         for (uint256 i = 1; i <= nextVoterId; i++) {
             if (voterDetails[i].voterAddress == _person) {
@@ -156,8 +171,8 @@ contract Vote {
     function getVoterList() public view returns (Voter[] memory) {
         Voter[] memory voters = new Voter[](nextVoterId - 1);
 
-        for (uint256 i = 0; i < nextCandidateId - 1; i++) {
-            voters[i] = voterDetails[i + 1];
+        for (uint256 i = 1; i <= nextVoterId - 1; i++) {
+            voters[i - 1] = voterDetails[i];
         }
 
         return voters;
