@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity 0.8.18;
 
 import {FunctionsClient} from "@chainlink/contracts@1.3.0/src/v0.8/functions/v1_0_0/FunctionsClient.sol";
 import {ConfirmedOwner} from "@chainlink/contracts@1.3.0/src/v0.8/shared/access/ConfirmedOwner.sol";
 import {FunctionsRequest} from "@chainlink/contracts@1.3.0/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
+
+import "hardhat/console.sol";
 
 interface IOpinex {
     function updateQuestion(bytes calldata data) external;
@@ -18,7 +20,6 @@ contract OpinexConsumer is FunctionsClient, ConfirmedOwner {
     address public opinexContract; // Opinex contract address
 
     event Response(bytes32 indexed requestId, bytes response, bytes err);
-    // event RequestSent(bytes32 indexed requestId);
 
     constructor(address router, address _opinexContract)
         FunctionsClient(router)
@@ -41,7 +42,22 @@ contract OpinexConsumer is FunctionsClient, ConfirmedOwner {
             gasLimit,
             donID
         );
-        emit RequestSent(s_lastRequestId);
+
+        return s_lastRequestId;
+    }
+
+    function sendRequestCBOR(
+        bytes memory request,
+        uint64 subscriptionId,
+        uint32 gasLimit,
+        bytes32 donID
+    ) external onlyOwner returns (bytes32 requestId) {
+        s_lastRequestId = _sendRequest(
+            request,
+            subscriptionId,
+            gasLimit,
+            donID
+        );
         return s_lastRequestId;
     }
 
@@ -58,6 +74,7 @@ contract OpinexConsumer is FunctionsClient, ConfirmedOwner {
         s_lastError = err;
 
         if (response.length > 0 && opinexContract != address(0)) {
+            console.log("updating question in opinex contract");
             IOpinex(opinexContract).updateQuestion(response);
         }
 

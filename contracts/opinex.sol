@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity 0.8.18;
 
 contract Opinex {
     address public owner;
@@ -8,7 +8,7 @@ contract Opinex {
     struct Question {
         string topic;
         string question;
-        string[] options;
+        string[2] options;
         uint256 timestamp;
         bool isActive;
         uint256 totalPool;
@@ -28,7 +28,7 @@ contract Opinex {
         uint256 indexed questionId,
         string topic,
         string question,
-        string[] options
+        string[2] options
     );
     event BetPlaced(
         uint256 indexed questionId,
@@ -62,20 +62,15 @@ contract Opinex {
         // functionsConsumer = _functionsConsumer;
     }
 
-    function updateQuestion(bytes calldata data)
-        external
-    {
-        // Decode JSON string as an array
-        string memory jsonString = abi.decode(data, (string));
+    function updateQuestion(bytes calldata data) external {
         (
             string memory topic,
-            string memory question,
-            string[] memory options
-        ) = abi.decode(bytes(jsonString), (string, string, string[]));
+            string memory question
+        ) = abi.decode(data, (string, string));
 
         require(bytes(topic).length > 0, "Empty topic");
         require(bytes(question).length > 0, "Empty question");
-        require(options.length >= 2, "Need at least 2 options");
+        // require(options.length >= 2, "Need at least 2 options");
 
         if (questions.length > 0 && questions[questions.length - 1].isActive) {
             _resolveQuestion(questions.length - 1);
@@ -85,7 +80,7 @@ contract Opinex {
             Question({
                 topic: topic,
                 question: question,
-                options: options,
+                options: ["A", "V"],
                 timestamp: block.timestamp,
                 isActive: true,
                 totalPool: 0,
@@ -94,7 +89,7 @@ contract Opinex {
             })
         );
 
-        emit NewQuestion(questions.length - 1, topic, question, options);
+        emit NewQuestion(questions.length - 1, topic, question, ["A", "V"]);
     }
 
     function placeBet(uint256 questionId, string calldata option)
@@ -208,7 +203,7 @@ contract Opinex {
         returns (
             string memory topic,
             string memory question,
-            string[] memory options,
+            string[2] memory options,
             uint256 timestamp,
             bool isActive,
             uint256 totalPool,
